@@ -20,8 +20,3 @@ A simple command-line Python application to track study sessions with a countdow
 
 ## Requirements
 - Python 3.x
-
-## Troubleshooting
-- Ensure Python is installed and in PATH.
-- Logs are saved in `study_log.txt` in the same directory.
-- If interrupted, the session is still logged with the intended duration.
