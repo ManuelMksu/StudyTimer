@@ -35,12 +35,41 @@ def view_logs():
     else:
         print("No logs found.")
 
+def start_pomodoro(subject):
+    pomodoro_count = 0
+    while True:
+        # Work session
+        print(f"\nStarting Pomodoro {pomodoro_count + 1} for '{subject}'.")
+        start_timer(25, subject)
+        pomodoro_count += 1
+        
+        # Break
+        if pomodoro_count % 4 == 0:
+            print("Time for a long break (15 minutes)!")
+            start_timer(15, "Long Break")
+        else:
+            print("Short break (5 minutes).")
+            start_timer(5, "Short Break")
+        
+        # Ask to continue
+        cont = input("Continue with another Pomodoro? (y/n): ").strip().lower()
+        if cont != 'y':
+            break
+    
+    print(f"\nPomodoro session complete! Completed {pomodoro_count} Pomodoros.")
+    # Log the session summary
+    end_time = datetime.now()
+    with open(LOG_FILE, 'a') as f:
+        f.write(f"{end_time.strftime('%Y-%m-%d %H:%M:%S')} - {subject} - Pomodoro session: {pomodoro_count} completed\n")
+    print("Session logged.")
+
 def main():
     while True:
         print("\nStudy Session Timer")
         print("1. Start a study session")
         print("2. View logs")
-        print("3. Exit")
+        print("3. Start Pomodoro session")
+        print("4. Exit")
         choice = input("Choose an option: ").strip()
 
         if choice == '1':
@@ -56,6 +85,12 @@ def main():
         elif choice == '2':
             view_logs()
         elif choice == '3':
+            subject = input("Enter subject for Pomodoro: ").strip()
+            if subject:
+                start_pomodoro(subject)
+            else:
+                print("Invalid input.")
+        elif choice == '4':
             break
         else:
             print("Invalid choice.")
